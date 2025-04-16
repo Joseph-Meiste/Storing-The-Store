@@ -28,5 +28,10 @@ public class PathFinding : MonoBehaviour
         {
         Customer.destination = TargetItem.transform.position;
         }
+        else
+        {
+        Customer.destination = GameObject.Find("Spawn").transform.position;
+        FindPath();
+        }
     }
 }

@@ -30,7 +30,7 @@ public class ItemRandomizer : MonoBehaviour
         {
             Type = ("Freezers");
             ShelfNum = 0;
-            ItemNum = UnityEngine.Random.Range(1, 8);
+            ItemNum = UnityEngine.Random.Range(1, 7);
 
             //Items
             switch (ItemNum)
@@ -45,15 +45,12 @@ public class ItemRandomizer : MonoBehaviour
                     Item = ("Waffles");
                     break;
                 case 4:
-                    Item = ("Pizza-Rolls");
-                    break;
-                case 5:
                     Item = ("Milk");
                     break;
-                case 6:
+                case 5:
                     Item = ("Juice");
                     break;
-                case 7:
+                case 6:
                     Item = ("Water");
                     break;
             }
@@ -76,7 +73,7 @@ public class ItemRandomizer : MonoBehaviour
                         Item = ("Basket-Balls");
                         break;
                     case 2:
-                        Item = ("8-Ball");
+                        Item = ("8-Balls");
                         break;
                     case 3:
                         Item = ("Soccer-Balls");
