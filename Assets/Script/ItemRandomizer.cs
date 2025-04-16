@@ -4,23 +4,25 @@ using UnityEngine;
 
 public class ItemRandomizer : MonoBehaviour
 {
-    public GameObject Customer;
     public string Type;
     public string Shelf;
     public string Item;
     private int TypeNum;
     private int ShelfNum;
     private int ItemNum;
+    private PathFinding PathFinder;
 
-    //Ice-Cream Pizzas Waffles Pizza-Rolls Milk Juice Water
+
+    //Ice-Cream Pizzas Waffles Milk Juice Water
 
     //Basket-Balls 8-Balls Soccer-Balls Action-Figures Mini-Houses
 
     //Kitchen (Pans, Containers, Glass-Cups) Disposable-Items (Paper-Plates, Napkins, Plastic-Utensils) Snacks (Popcorn, Chips, Cookies) Candy (Bars, Packets, Suckers)
-    //Home-Deco (Candles, Plants, Picture-Frames) Arts-n-Crafts (Pencils, Markers, Paper) Cleaning-Supplies (Bucket, Bottles, Gloves) Bathroom-Essentials (Soap, Bars, Toilet-Paper) Train-Models (Engine, Cargo, Caboose)
+    //Home-Deco (Candles, Plants, Picture-Frames) Arts-n-Crafts (Pencils, Markers, Paper) Cleaning-Supplies (Bucket, Bottles, Gloves) Bathroom-Essentials (Soap, ToothPaste, Toilet-Paper) Train-Models (Engine, Cargo, Caboose)
 
     void Start()
     {
+        PathFinder = GetComponent<PathFinding>();
         TypeNum = UnityEngine.Random.Range(1, 14);
         
         //Freezers
@@ -235,7 +237,7 @@ public class ItemRandomizer : MonoBehaviour
                             Item = ("Soap");
                             break;
                         case 2:
-                            Item = ("Bars");
+                            Item = ("ToothPaste");
                             break;
                         case 3:
                             Item = ("Toilet-Paper");
@@ -261,10 +263,7 @@ public class ItemRandomizer : MonoBehaviour
                     break;
             }
         }
-    }
 
-    void Update()
-    {
-        
+        PathFinder.FindPath();
     }
 }
