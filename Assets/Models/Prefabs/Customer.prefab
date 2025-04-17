@@ -128,7 +128,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TargetItem: {fileID: 0}
+  Body: {fileID: 8114283729354305755}
   Customer: {fileID: 4286779163597362477}
+  ItemReached: 0
+  ItemFound: 0
 --- !u!114 &8994077793711429800
 MonoBehaviour:
   m_ObjectHideFlags: 0
