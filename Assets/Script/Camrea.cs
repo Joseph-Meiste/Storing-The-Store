@@ -3,39 +3,75 @@ using UnityEngine;
 
 public class CameraSwitching : MonoBehaviour
 {
-    public List<Camera> Cameras = new List<Camera>(); 
-    public GameObject cameraGroup;
+    [SerializeField] private Vector3 _rotation;
+
+    public GameObject Platform;
+    public List<GameObject> Walls;
+    public Camera SecurityCam1;
+    public Camera SecurityCam2;
+    public Camera Player;
+
     public bool isDay = true;
 
-    private int currentIndex = 0;
+    public float CoolDown = 0f;
+    public float SetCoolDown = 1f;
 
-    private void Start()
+    private int wallIndex = 0;
+
+    private void SwitchAngle(int angle)
     {
-        ActivateCamera(currentIndex);
+        wallIndex = (wallIndex + angle + Walls.Count) % Walls.Count;
+
+        for (int i = 0; i < Walls.Count; i++)
+        {
+            Walls[i].SetActive(i == wallIndex);
+        }
+
+        Platform.transform.Rotate(_rotation * angle);
+
+        bool cam1Active = SecurityCam1.gameObject.activeSelf;
+        SecurityCam1.gameObject.SetActive(!cam1Active);
+        SecurityCam2.gameObject.SetActive(cam1Active);
+
+        CoolDown = SetCoolDown;
     }
 
     private void Update()
     {
-        if (isDay)
-          {
-          if (Input.GetKeyDown(KeyCode.D))
-          {
-              currentIndex = (currentIndex + 1) % Cameras.Count;
-              ActivateCamera(currentIndex);
-          }
-          if (Input.GetKeyDown(KeyCode.A))
-          {
-              currentIndex = (currentIndex - 1 + Cameras.Count) % Cameras.Count;
-              ActivateCamera(currentIndex);
-          }
-        }
-    }
-
-    private void ActivateCamera(int index)
-    {
-        for (int i = 0; i < Cameras.Count; i++)
+        if (CoolDown > 0f)
         {
-            Cameras[i].gameObject.SetActive(i == index);
+            CoolDown -= Time.deltaTime;
+        }
+
+        if (isDay)
+        {
+            if (!Player.gameObject.activeSelf)
+            {
+                SecurityCam1.gameObject.SetActive(true);
+                SecurityCam2.gameObject.SetActive(false);
+                Player.gameObject.SetActive(false);
+            }
+
+            if (CoolDown <= 0f)
+            {
+                if (Input.GetKeyDown(KeyCode.A))
+                {
+                    SwitchAngle(-1);
+                }
+                else if (Input.GetKeyDown(KeyCode.D))
+                {
+                    SwitchAngle(1);
+                }
+            }
+        }
+        else
+        {
+            if (!Player.gameObject.activeSelf)
+            {
+                Player.gameObject.SetActive(true);
+                SecurityCam1.gameObject.SetActive(false);
+                SecurityCam2.gameObject.SetActive(false);
+            }
         }
     }
 }

@@ -6,6 +6,7 @@ public class Spawner : MonoBehaviour
 {
     public GameObject Customer;
     public Transform SpawnPad;
+    public Transform folderParent;
     public float SpawnRate;
     
     private float SpawnTimer;
@@ -16,7 +17,7 @@ public class Spawner : MonoBehaviour
 
     if (SpawnTimer >= SpawnRate)
     {
-        Instantiate(Customer, SpawnPad.position, SpawnPad.rotation);
+        Instantiate(Customer, SpawnPad.position, SpawnPad.rotation, folderParent);
         SpawnTimer = 0f;
     }    
     }
