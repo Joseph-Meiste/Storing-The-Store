@@ -5,63 +5,39 @@ public class CameraSwitching : MonoBehaviour
 {
     [SerializeField] private Vector3 _rotation;
 
-    public GameObject Platform;
     public List<GameObject> Walls;
-    public Camera SecurityCam1;
-    public Camera SecurityCam2;
+    public Camera SecurityCam;
     public Camera Player;
+    public Transform pivotPoint;
+    public TimeTracker Timer;
 
-    public bool isDay = true;
-
-    public float CoolDown = 0f;
-    public float SetCoolDown = 1f;
-
-    private int wallIndex = 0;
+    public float rotationSpeed = 80f;
+    public int wallIndex = 0;
 
     private void SwitchAngle(int angle)
     {
-        wallIndex = (wallIndex + angle + Walls.Count) % Walls.Count;
-
-        for (int i = 0; i < Walls.Count; i++)
-        {
-            Walls[i].SetActive(i == wallIndex);
-        }
-
-        Platform.transform.Rotate(_rotation * angle);
-
-        bool cam1Active = SecurityCam1.gameObject.activeSelf;
-        SecurityCam1.gameObject.SetActive(!cam1Active);
-        SecurityCam2.gameObject.SetActive(cam1Active);
-
-        CoolDown = SetCoolDown;
+        SecurityCam.transform.RotateAround(pivotPoint.position, Vector3.up, rotationSpeed * Time.deltaTime * angle);
     }
 
     private void Update()
     {
-        if (CoolDown > 0f)
-        {
-            CoolDown -= Time.deltaTime;
-        }
+        WallDisplay();
 
-        if (isDay)
+        if (Timer.isDay)
         {
             if (!Player.gameObject.activeSelf)
             {
-                SecurityCam1.gameObject.SetActive(true);
-                SecurityCam2.gameObject.SetActive(false);
+                SecurityCam.gameObject.SetActive(true);
                 Player.gameObject.SetActive(false);
             }
 
-            if (CoolDown <= 0f)
+            if (Input.GetKey(KeyCode.D))
             {
-                if (Input.GetKeyDown(KeyCode.A))
-                {
-                    SwitchAngle(-1);
-                }
-                else if (Input.GetKeyDown(KeyCode.D))
-                {
-                    SwitchAngle(1);
-                }
+                SwitchAngle(-1);
+            }
+            else if (Input.GetKey(KeyCode.A))
+            {
+                SwitchAngle(1);
             }
         }
         else
@@ -69,9 +45,40 @@ public class CameraSwitching : MonoBehaviour
             if (!Player.gameObject.activeSelf)
             {
                 Player.gameObject.SetActive(true);
-                SecurityCam1.gameObject.SetActive(false);
-                SecurityCam2.gameObject.SetActive(false);
+                SecurityCam.gameObject.SetActive(false);
             }
+        }
+    }
+
+    private void WallDisplay()
+    {
+        Vector3 CamAngle = SecurityCam.transform.eulerAngles;
+
+        if (CamAngle.y >= 180f && CamAngle.y < 270f)
+        {
+            wallIndex = 1;
+        }
+        else if (CamAngle.y >= 90f && CamAngle.y < 180f)
+        {
+            wallIndex = 2;
+        }
+        else if ((CamAngle.y >= 0f && CamAngle.y < 90f) || (CamAngle.y >= 360f && CamAngle.y <= 400f))
+        {
+            wallIndex = 3;
+        }
+        else if (CamAngle.y >= 270f && CamAngle.y < 360f)
+        {
+            wallIndex = 4;
+        }
+
+        for (int i = 0; i < Walls.Count; i++)
+        {
+            Walls[i].SetActive(false);
+        }
+
+        if (wallIndex > 0 && wallIndex <= Walls.Count)
+        {
+            Walls[wallIndex-1].SetActive(true);
         }
     }
 }

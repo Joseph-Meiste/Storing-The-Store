@@ -13,6 +13,7 @@ public class PathFinding : MonoBehaviour
     public bool CheckedOut;
 
     private ItemRandomizer ItemRandomizer;
+    private TimeTracker Timer;
 
     private string Direction;
 
@@ -105,8 +106,9 @@ public class PathFinding : MonoBehaviour
     {
         float distanceToCheckOut = Vector3.Distance(Customer.transform.position, GameObject.Find("Exit").transform.position);
 
-        if (distanceToCheckOut < 0.5f)
+        if (distanceToCheckOut < 1f)
         {
+            Timer.IncrementInt();
             Destroy(Body);
         }
     }
