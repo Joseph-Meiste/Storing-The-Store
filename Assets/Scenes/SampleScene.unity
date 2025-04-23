@@ -15284,7 +15284,6 @@ MonoBehaviour:
   SecurityCam: {fileID: 991015481}
   Player: {fileID: 454926600}
   pivotPoint: {fileID: 1068614650}
-  Timer: {fileID: 0}
   rotationSpeed: 80
   wallIndex: 0
 --- !u!114 &705462049
@@ -15299,8 +15298,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35ca664a47f12fb4980e330c96ee3ac1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isDay: 0
+  isDay: 1
   CompletedCustomers: 0
+  OncomingCustomers: 0
+  NumberOfTrash: 0
 --- !u!4 &708393408 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 05664774fd35e114b9f6083622bd6296, type: 3}

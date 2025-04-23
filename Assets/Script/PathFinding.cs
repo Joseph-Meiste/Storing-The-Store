@@ -8,26 +8,29 @@ public class PathFinding : MonoBehaviour
 
     public NavMeshAgent Customer;
 
+    public Animator Animator;
+
     public bool ItemReached;
     public bool ItemFound;
     public bool CheckedOut;
 
-    private ItemRandomizer ItemRandomizer;
-    private TimeTracker Timer;
+    ItemRandomizer ItemRandomizer;
+    TimeTracker Timer;
 
     private string Direction;
 
     private void Awake()
     {
-        ItemRandomizer = GetComponent<ItemRandomizer>();
+        ItemRandomizer = FindObjectOfType<ItemRandomizer>();
+        Timer = FindObjectOfType<TimeTracker>();
     }
 
     public void FindPath()
     {
-            string Item = ItemRandomizer.Item;
-            TargetItem = GameObject.Find(Item);
-            ItemReached = false;
-            ItemFound = false;
+        string Item = ItemRandomizer.Item;
+        TargetItem = GameObject.Find(Item);
+        ItemReached = false;
+        ItemFound = false;
     }
 
     public void Update()
@@ -40,6 +43,7 @@ public class PathFinding : MonoBehaviour
         if (ItemReached)
         {
             GoToCheckOut();
+            //Animator.SetTrigger("Search");
             CheckIfReachedCheckOut();
         }
 
@@ -77,6 +81,12 @@ public class PathFinding : MonoBehaviour
             FindPath();
         }
     }
+
+    /* public void Steal()
+     {
+         ItemRandomizer.Generate 
+     }*/
+
     public void GoToTheExit()
     {
         Customer.destination = GameObject.Find("Exit").transform.position;

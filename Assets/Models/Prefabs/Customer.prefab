@@ -70,6 +70,8 @@ GameObject:
   - component: {fileID: 4286779163597362477}
   - component: {fileID: 9000769672965390990}
   - component: {fileID: 8994077793711429800}
+  - component: {fileID: 2254994791934706848}
+  - component: {fileID: 6395463840842162392}
   m_Layer: 0
   m_Name: Customer
   m_TagString: Untagged
@@ -130,6 +132,7 @@ MonoBehaviour:
   TargetItem: {fileID: 0}
   Body: {fileID: 8114283729354305755}
   Customer: {fileID: 4286779163597362477}
+  Animator: {fileID: 0}
   ItemReached: 0
   ItemFound: 0
   CheckedOut: 0
@@ -148,6 +151,35 @@ MonoBehaviour:
   Type: 
   Shelf: 
   Item: 
+--- !u!114 &2254994791934706848
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8114283729354305755}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 697cb9a4d37d3b644adace53a90a4b51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6395463840842162392
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8114283729354305755}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45aa94967b90453438c716cf180f7443, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TrashCoolDownTimer: 0
+  TrashCoolDown: 0
+  TrashBox: 
+  TrashPile: {fileID: 7208241465502851477, guid: 7c0cf616a1bbc054d996ce1212e3367d, type: 3}
+  TrashFolderPrefab: {fileID: 2946196625619279897, guid: 15b0c999cbfd8514ba8dda60045f3784, type: 3}
 --- !u!1001 &1690008613570532748
 PrefabInstance:
   m_ObjectHideFlags: 0

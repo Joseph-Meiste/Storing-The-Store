@@ -1,18 +1,62 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class RandomEvent : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public float TrashCoolDownTimer;
+    public float TrashCoolDown;
+    public string TrashBox;
+
+    public GameObject TrashPile;
+    public GameObject TrashFolderPrefab;
+
+    PathFinding pathFinding;
+    Transform TrashFolder;
+    TimeTracker Timer;
+
+    private int TrashCount;
+
+    void Awake()
     {
-        
+        Timer = FindObjectOfType<TimeTracker>();
+        pathFinding = FindObjectOfType<PathFinding>();
+        TrashFolder = FindObjectOfType<FindTrash>()?.transform ?? Instantiate(TrashFolderPrefab).transform;
+        UpdateText();
+        TrashCoolDownTimer = Random.Range(-5f, 0f);
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        TrashCoolDownTimer += Time.deltaTime;
+
+        if (TrashCoolDownTimer >= TrashCoolDown)
+        {
+            Trash();
+            TrashCoolDownTimer = Random.Range(-5f, 0f);
+        }
+    }
+
+    private void UpdateText()
+    {
+        TrashBox = "I placed " + TrashCount + " trash!";
+    }
+
+    private void Trash()
+    {
+        if (Random.Range(1, 15) == 14)
+        {
+            SpawnTrash();
+            TrashCount++;
+            UpdateText();
+        }
+    }
+
+    public void SpawnTrash()
+    {
+        Instantiate(
+            TrashPile,
+            pathFinding.Customer.transform.position,
+            pathFinding.Customer.transform.rotation,
+            TrashFolder
+        );
     }
 }

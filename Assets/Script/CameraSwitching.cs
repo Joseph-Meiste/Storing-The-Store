@@ -9,10 +9,16 @@ public class CameraSwitching : MonoBehaviour
     public Camera SecurityCam;
     public Camera Player;
     public Transform pivotPoint;
-    public TimeTracker Timer;
+    
+    TimeTracker Timer;
 
     public float rotationSpeed = 80f;
     public int wallIndex = 0;
+
+    private void Awake()
+    {
+        Timer = FindObjectOfType<TimeTracker>();
+    }
 
     private void SwitchAngle(int angle)
     {

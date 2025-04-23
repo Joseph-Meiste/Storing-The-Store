@@ -8,17 +8,28 @@ public class Spawner : MonoBehaviour
     public Transform SpawnPad;
     public Transform folderParent;
     public float SpawnRate;
-    
+
+    TimeTracker Timer;
+
     private float SpawnTimer;
-    
+
+    private void Awake()
+    {
+        Timer = FindAnyObjectByType<TimeTracker>();
+    }
+
     void Update()
     {
-    SpawnTimer+= Time.deltaTime;
+        if (Timer.OncomingCustomers > 0)
+        {
+            SpawnTimer += Time.deltaTime;
 
-    if (SpawnTimer >= SpawnRate)
-    {
-        Instantiate(Customer, SpawnPad.position, SpawnPad.rotation, folderParent);
-        SpawnTimer = 0f;
-    }    
+            if (SpawnTimer >= SpawnRate)
+            {
+                Instantiate(Customer, SpawnPad.position, SpawnPad.rotation, folderParent);
+                SpawnTimer = 0f;
+                Timer.DecrementInt();
+            }
+        }
     }
 }
