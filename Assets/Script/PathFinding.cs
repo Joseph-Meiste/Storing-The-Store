@@ -8,6 +8,8 @@ public class PathFinding : MonoBehaviour
 
     public NavMeshAgent Customer;
 
+    public Animator Animator;
+
     public bool ItemReached;
     public bool ItemFound;
     public bool CheckedOut;
@@ -39,7 +41,7 @@ public class PathFinding : MonoBehaviour
         }
         if (ItemReached)
         {
-            GoToCheckOut();
+            Animator.SetTrigger("Search");
             CheckIfReachedCheckOut();
         }
 
@@ -49,7 +51,7 @@ public class PathFinding : MonoBehaviour
             CheckIfReachedExit();
         }
     }
-
+    
     public void GoToCheckOut()
     {
         int CheckOut = UnityEngine.Random.Range(1, 3);
@@ -77,6 +79,12 @@ public class PathFinding : MonoBehaviour
             FindPath();
         }
     }
+
+   /* public void Steal()
+    {
+        ItemRandomizer.Generate 
+    }*/
+
     public void GoToTheExit()
     {
         Customer.destination = GameObject.Find("Exit").transform.position;

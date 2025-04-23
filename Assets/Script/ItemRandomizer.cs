@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using UnityEngine;
 
 public class ItemRandomizer : MonoBehaviour
@@ -7,260 +6,101 @@ public class ItemRandomizer : MonoBehaviour
     public string Type;
     public string Shelf;
     public string Item;
+
     private int TypeNum;
     private int ShelfNum;
     private int ItemNum;
+
     private PathFinding PathFinder;
+    private CheckOverLoad CheckOverLoad;
 
-
-    //Ice-Cream Pizzas Waffles Milk Juice Water
-
-    //Basket-Balls 8-Balls Soccer-Balls Action-Figures Mini-Houses
-
-    //Kitchen (Pans, Containers, Glass-Cups) Disposable-Items (Paper-Plates, Napkins, Plastic-Utensils) Snacks (Popcorn, Chips, Cookies) Candy (Bars, Packets, Suckers)
-    //Home-Deco (Candles, Plants, Picture-Frames) Arts-n-Crafts (Pencils, Markers, Paper) Cleaning-Supplies (Bucket, Bottles, Gloves) Bathroom-Essentials (Soap, ToothPaste, Toilet-Paper) Train-Models (Engine, Cargo, Caboose)
-
-    void Start()
+    void Awake()
     {
+        CheckOverLoad = GetComponent<CheckOverLoad>();
         PathFinder = GetComponent<PathFinding>();
+
+        // Loop until we find an item with stock
+        bool validItem = false;
+        while (!validItem)
+        {
+            GenerateItem();
+            validItem = CheckOverLoad.TryUseItem(Item);
+        }
+
+        PathFinder.FindPath();
+    }
+
+    private void GenerateItem()
+    {
         TypeNum = UnityEngine.Random.Range(1, 14);
-        
-        //Freezers
+
         if (TypeNum >= 1 && TypeNum <= 2)
         {
-            Type = ("Freezers");
+            Type = "Freezers";
             ShelfNum = 0;
             ItemNum = UnityEngine.Random.Range(1, 7);
-
-            //Items
-            switch (ItemNum)
-            {
-                case 1:
-                    Item = ("Ice-Cream");
-                    break;
-                case 2:
-                    Item = ("Pizzas");
-                    break;
-                case 3:
-                    Item = ("Waffles");
-                    break;
-                case 4:
-                    Item = ("Milk");
-                    break;
-                case 5:
-                    Item = ("Juice");
-                    break;
-                case 6:
-                    Item = ("Water");
-                    break;
-            }
+            Item = new string[] { "Ice-Cream", "Pizzas", "Waffles", "Milk", "Juice", "Water" }[ItemNum - 1];
         }
-        //Islands
-        else if(TypeNum >= 3 && TypeNum <= 4)
+        else if (TypeNum >= 3 && TypeNum <= 4)
         {
-            Type = ("Islands");
+            Type = "Islands";
             ShelfNum = UnityEngine.Random.Range(1, 3);
-            
-            //Ball + Table
+
             if (ShelfNum == 1)
             {
-                Shelf = ("Ball Bins + Table");
-                ItemNum = UnityEngine.Random.Range(1, 4);
-
-                switch (ItemNum)
-                {
-                    case 1:
-                        Item = ("Basket-Balls");
-                        break;
-                    case 2:
-                        Item = ("8-Balls");
-                        break;
-                    case 3:
-                        Item = ("Soccer-Balls");
-                        break;
-                }
+                Shelf = "Ball Bins + Table";
+                Item = new string[] { "Basket-Balls", "8-Balls", "Soccer-Balls" }[UnityEngine.Random.Range(0, 3)];
             }
-            //Tables
             else
             {
-                Shelf = ("Table");
-                ItemNum = UnityEngine.Random.Range(1, 3);
-
-                switch (ItemNum)
-                {
-                    case 1:
-                        Item = ("Action-Figures");
-                        break;
-                    case 2:
-                        Item = ("Mini-Houses");
-                        break;
-                }
+                Shelf = "Table";
+                Item = new string[] { "Action-Figures", "Mini-Houses" }[UnityEngine.Random.Range(0, 2)];
             }
         }
-        //Aisles
         else
         {
-            Type = ("Aisles");
+            Type = "Aisles";
             ShelfNum = UnityEngine.Random.Range(1, 10);
 
             switch (ShelfNum)
             {
-                //Kitchen
                 case 1:
-                    Shelf = ("Kitchen");
-                    ItemNum = UnityEngine.Random.Range(1, 4);
-                    switch (ItemNum)
-                    {
-                        case 1:
-                            Item = ("Pans");
-                            break;
-                        case 2:
-                            Item = ("Containers");
-                            break;
-                        case 3:
-                            Item = ("Glass-Cups");
-                            break;
-                    }
+                    Shelf = "Kitchen";
+                    Item = new string[] { "Pans", "Containers", "Glass-Cups" }[UnityEngine.Random.Range(0, 3)];
                     break;
-                //Disposable Items
                 case 2:
-                    Shelf = ("Paper-Stuff");
-                    ItemNum = UnityEngine.Random.Range(1, 4);
-                    switch (ItemNum)
-                    {
-                        case 1:
-                            Item = ("Paper-Plates");
-                            break;
-                        case 2:
-                            Item = ("Napkins");
-                            break;
-                        case 3:
-                            Item = ("Plastic-Utensils");
-                            break;
-                    }
+                    Shelf = "Paper-Stuff";
+                    Item = new string[] { "Paper-Plates", "Napkins", "Plastic-Utensils" }[UnityEngine.Random.Range(0, 3)];
                     break;
-                //Snacks
                 case 3:
-                    Shelf = ("Snacks");
-                    ItemNum = UnityEngine.Random.Range(1, 4);
-                    switch (ItemNum)
-                    {
-                        case 1:
-                            Item = ("Popcorn");
-                            break;
-                        case 2:
-                            Item = ("Chips");
-                            break;
-                        case 3:
-                            Item = ("Cookies");
-                            break;
-                    }
+                    Shelf = "Snacks";
+                    Item = new string[] { "Popcorn", "Chips", "Cookies" }[UnityEngine.Random.Range(0, 3)];
                     break;
-                //Candy
                 case 4:
-                    Shelf = ("Candy");
-                    ItemNum = UnityEngine.Random.Range(1, 4);
-                    switch (ItemNum)
-                    {
-                        case 1:
-                            Item = ("Bars");
-                            break;
-                        case 2:
-                            Item = ("Packets");
-                            break;
-                        case 3:
-                            Item = ("Suckers");
-                            break;
-                    }
+                    Shelf = "Candy";
+                    Item = new string[] { "Bars", "Packets", "Suckers" }[UnityEngine.Random.Range(0, 3)];
                     break;
-                //Home-Deco
                 case 5:
-                    Shelf = ("Home-Deco");
-                    ItemNum = UnityEngine.Random.Range(1, 4);
-                    switch (ItemNum)
-                    {
-                        case 1:
-                            Item = ("Candles");
-                            break;
-                        case 2:
-                            Item = ("Plants");
-                            break;
-                        case 3:
-                            Item = ("Picture-Frames");
-                            break;
-                    }
+                    Shelf = "Home-Deco";
+                    Item = new string[] { "Candles", "Plants", "Picture-Frames" }[UnityEngine.Random.Range(0, 3)];
                     break;
-                //Arts-n-Crafts
                 case 6:
-                    Shelf = ("Arts-n-Crafts");
-                    ItemNum = UnityEngine.Random.Range(1, 4);
-                    switch (ItemNum)
-                    {
-                        case 1:
-                            Item = ("Pencils");
-                            break;
-                        case 2:
-                            Item = ("Markers");
-                            break;
-                        case 3:
-                            Item = ("Paper");
-                            break;
-                    }
+                    Shelf = "Arts-n-Crafts";
+                    Item = new string[] { "Pencils", "Markers", "Paper" }[UnityEngine.Random.Range(0, 3)];
                     break;
-                //Cleaning-Supplies
                 case 7:
-                    Shelf = ("Cleaning-Supplies");
-                    ItemNum = UnityEngine.Random.Range(1, 4);
-                    switch (ItemNum)
-                    {
-                        case 1:
-                            Item = ("Bucket");
-                            break;
-                        case 2:
-                            Item = ("Gloves");
-                            break;
-                        case 3:
-                            Item = ("Product");
-                            break;
-                    }
+                    Shelf = "Cleaning-Supplies";
+                    Item = new string[] { "Bucket", "Gloves", "Product" }[UnityEngine.Random.Range(0, 3)];
                     break;
-                //Bathroom-Essentials
                 case 8:
-                    Shelf = ("Bathroom-Essentails");
-                    ItemNum = UnityEngine.Random.Range(1, 4);
-                    switch (ItemNum)
-                    {
-                        case 1:
-                            Item = ("Soap");
-                            break;
-                        case 2:
-                            Item = ("ToothPaste");
-                            break;
-                        case 3:
-                            Item = ("Toilet-Paper");
-                            break;
-                    }
+                    Shelf = "Bathroom-Essentails";
+                    Item = new string[] { "Soap", "ToothPaste", "Toilet-Paper" }[UnityEngine.Random.Range(0, 3)];
                     break;
-                //Train-Models
                 case 9:
-                    Shelf = ("Train-Models");
-                    ItemNum = UnityEngine.Random.Range(1, 4);
-                    switch (ItemNum)
-                    {
-                        case 1:
-                            Item = ("Engine");
-                            break;
-                        case 2:
-                            Item = ("Cargo");
-                            break;
-                        case 3:
-                            Item = ("Caboose");
-                            break;
-                    }
+                    Shelf = "Train-Models";
+                    Item = new string[] { "Engine", "Cargo", "Caboose" }[UnityEngine.Random.Range(0, 3)];
                     break;
             }
         }
-
-        PathFinder.FindPath();
     }
 }
