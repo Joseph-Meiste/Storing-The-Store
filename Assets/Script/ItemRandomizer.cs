@@ -14,17 +14,27 @@ public class ItemRandomizer : MonoBehaviour
     private PathFinding PathFinder;
     private CheckOverLoad CheckOverLoad;
 
+
     void Awake()
     {
         CheckOverLoad = GetComponent<CheckOverLoad>();
         PathFinder = GetComponent<PathFinding>();
+    }
 
-        // Loop until we find an item with stock
-        bool validItem = false;
-        while (!validItem)
+    private void Start()
+    {
+        FindItem();
+    }
+
+    private void FindItem()
+    {
+        GenerateItem();
+        CheckOverLoad targetShelf = GameObject.Find(Item).GetComponent<CheckOverLoad>();
+        bool worked = targetShelf.Verify();
+
+        if (!worked)
         {
-            GenerateItem();
-            validItem = CheckOverLoad.TryUseItem(Item);
+            FindItem();
         }
 
         PathFinder.FindPath();

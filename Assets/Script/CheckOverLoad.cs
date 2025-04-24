@@ -1,28 +1,34 @@
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CheckOverLoad : MonoBehaviour
 {
-    private static Dictionary<string, int> itemStock = new Dictionary<string, int>();
+    public int UsesLeft;
+    public int ItemsLeft;
 
-    public bool TryUseItem(string item)
+    private void Awake()
     {
-        if (!itemStock.ContainsKey(item))
-            itemStock[item] = 6;
+    }
 
-        if (itemStock[item] > 0)
+    public bool Verify()
+    {
+        if (UsesLeft-1 > 0)
         {
-            itemStock[item]--;
-            Debug.Log($"{item} used. Remaining stock: {itemStock[item]}");
+            UsesLeft--;
             return true;
         }
-
-        Debug.Log($"{item} out of stock!");
         return false;
     }
 
-    public int GetStock(string item)
+    public bool TakeItem()
     {
-        return itemStock.ContainsKey(item) ? itemStock[item] : 6;
+        if (ItemsLeft-1 > 0)
+        {
+            ItemsLeft--;
+            return true;
+        }
+        return false;
     }
 }

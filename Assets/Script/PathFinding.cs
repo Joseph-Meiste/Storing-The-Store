@@ -1,16 +1,20 @@
 using UnityEngine;
 using UnityEngine.AI;
+using static UnityEditor.Progress;
 
 public class PathFinding : MonoBehaviour
 {
     public GameObject TargetItem;
     public GameObject Body;
+    public GameObject Object;
 
     public NavMeshAgent Customer;
 
-    public Animator Animator;
+    public Animator animator;
 
     public bool ItemReached;
+    public bool ReadyForCheckOut;
+    public bool CheckOutReached;
     public bool ItemFound;
     public bool CheckedOut;
 
@@ -21,6 +25,7 @@ public class PathFinding : MonoBehaviour
 
     private void Awake()
     {
+        animator = Body.GetComponent<Animator>(); ;
         ItemRandomizer = FindObjectOfType<ItemRandomizer>();
         Timer = FindObjectOfType<TimeTracker>();
     }
@@ -40,10 +45,10 @@ public class PathFinding : MonoBehaviour
             MoveToShelf();
             CheckIfReachedItem();
         }
-        if (ItemReached)
+
+        if (ReadyForCheckOut)
         {
             GoToCheckOut();
-            //Animator.SetTrigger("Search");
             CheckIfReachedCheckOut();
         }
 
@@ -51,21 +56,6 @@ public class PathFinding : MonoBehaviour
         {
             GoToTheExit();
             CheckIfReachedExit();
-        }
-    }
-    
-    public void GoToCheckOut()
-    {
-        int CheckOut = UnityEngine.Random.Range(1, 3);
-        if (CheckOut == 1)
-        {
-            Direction = "Left";
-            Customer.destination = GameObject.Find(Direction).transform.position;
-        }
-        else if (CheckOut == 2)
-        {
-            Direction = "Right";
-            Customer.destination = GameObject.Find(Direction).transform.position;
         }
     }
 
@@ -81,27 +71,52 @@ public class PathFinding : MonoBehaviour
             FindPath();
         }
     }
-
-    /* public void Steal()
-     {
-         ItemRandomizer.Generate 
-     }*/
-
-    public void GoToTheExit()
-    {
-        Customer.destination = GameObject.Find("Exit").transform.position;
-    }
-
     public void CheckIfReachedItem()
     {
-        float distanceToItem = Vector3.Distance(Customer.transform.position, TargetItem.transform.position);
-
-        if (distanceToItem < 0.5f)
+        if (!ItemReached)
         {
-            ItemReached = true;
+            float distanceToItem = Vector3.Distance(Customer.transform.position, TargetItem.transform.position);
+
+            if (distanceToItem < 0.5f)
+            {
+                animator.SetTrigger("ReadyToSearch");
+                ItemReached = true;
+            }
         }
     }
+    public void TryTakeItem()
+    {
+        CheckOverLoad targetShelf = GameObject.Find(ItemRandomizer.Item).GetComponent<CheckOverLoad>();
+        ItemFound = targetShelf.TakeItem();
 
+        if (ItemFound) { TakeItem(); }
+        else { Steal(); };
+    }
+    public void TakeItem()
+    {
+        animator.SetTrigger("IsItemFound");
+    }
+    public void Steal()
+    {
+        Debug.Log("Steal");
+    }
+    public void GoToCheckOut()
+    {
+        if (!CheckedOut)
+        {
+            int CheckOut = UnityEngine.Random.Range(1, 3);
+            if (CheckOut == 1)
+            {
+                Direction = "Left";
+                Customer.destination = GameObject.Find(Direction).transform.position;
+            }
+            else if (CheckOut == 2)
+            {
+                Direction = "Right";
+                Customer.destination = GameObject.Find(Direction).transform.position;
+            }
+        }
+    }
     public void CheckIfReachedCheckOut()
     {
         float distanceToCheckOut = Vector3.Distance(Customer.transform.position, GameObject.Find(Direction).transform.position);
@@ -111,7 +126,10 @@ public class PathFinding : MonoBehaviour
             CheckedOut = true;
         }
     }
-
+    public void GoToTheExit()
+    {
+        Customer.destination = GameObject.Find("Exit").transform.position;
+    }
     public void CheckIfReachedExit()
     {
         float distanceToCheckOut = Vector3.Distance(Customer.transform.position, GameObject.Find("Exit").transform.position);
@@ -122,4 +140,5 @@ public class PathFinding : MonoBehaviour
             Destroy(Body);
         }
     }
+
 }

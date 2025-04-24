@@ -44,8 +44,8 @@ public class RandomEvent : MonoBehaviour
     {
         if (Random.Range(1, 15) == 14)
         {
+            Timer.AddTrashCounter();
             SpawnTrash();
-            TrashCount++;
             UpdateText();
         }
     }
