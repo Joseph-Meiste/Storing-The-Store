@@ -17,6 +17,11 @@ public class TimeTracker : MonoBehaviour
         OncomingCustomers--;
     }
 
+    public void AddTrashCounter()
+    {
+        NumberOfTrash++;
+    }
+
     public void BreakLight()
     {
         //vn 0.791478 -0.068726 0.607322 

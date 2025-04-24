@@ -53,7 +53,7 @@ public class PathFinding : MonoBehaviour
             CheckIfReachedExit();
         }
     }
-
+    
     public void GoToCheckOut()
     {
         int CheckOut = UnityEngine.Random.Range(1, 3);
