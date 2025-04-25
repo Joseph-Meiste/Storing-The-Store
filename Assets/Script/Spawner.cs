@@ -9,18 +9,18 @@ public class Spawner : MonoBehaviour
     public Transform folderParent;
     public float SpawnRate;
 
-    TimeTracker Timer;
+    ValueHolder Holder;
 
     private float SpawnTimer;
 
     private void Awake()
     {
-        Timer = FindAnyObjectByType<TimeTracker>();
+        Holder = FindAnyObjectByType<ValueHolder>();
     }
 
     void Update()
     {
-        if (Timer.OncomingCustomers > 0)
+        if (Holder.OncomingCustomers > 0)
         {
             SpawnTimer += Time.deltaTime;
 
@@ -28,7 +28,7 @@ public class Spawner : MonoBehaviour
             {
                 Instantiate(Customer, SpawnPad.position, SpawnPad.rotation, folderParent);
                 SpawnTimer = 0f;
-                Timer.DecrementInt();
+                Holder.DecrementInt();
             }
         }
     }

@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEditor.FilePathAttribute;
 
 public class CameraSwitching : MonoBehaviour
 {
@@ -9,15 +11,16 @@ public class CameraSwitching : MonoBehaviour
     public Camera SecurityCam;
     public Camera Player;
     public Transform pivotPoint;
-    
-    TimeTracker Timer;
+    public bool RotationRight;
+
+    ValueHolder Holder;
 
     public float rotationSpeed = 80f;
     public int wallIndex = 0;
 
     private void Awake()
     {
-        Timer = FindObjectOfType<TimeTracker>();
+        Holder = FindObjectOfType<ValueHolder>();
     }
 
     private void SwitchAngle(int angle)
@@ -29,7 +32,7 @@ public class CameraSwitching : MonoBehaviour
     {
         WallDisplay();
 
-        if (Timer.isDay)
+        if (Holder.isDay)
         {
             if (!Player.gameObject.activeSelf)
             {
@@ -40,10 +43,24 @@ public class CameraSwitching : MonoBehaviour
             if (Input.GetKey(KeyCode.D))
             {
                 SwitchAngle(-1);
+                RotationRight = true;
+                
             }
             else if (Input.GetKey(KeyCode.A))
             {
                 SwitchAngle(1);
+                RotationRight = false;
+            }
+            else
+            {
+                if (RotationRight)
+                {
+                    SecurityCam.transform.RotateAround(pivotPoint.position, Vector3.up, -10f * Time.deltaTime);
+                }
+                else
+                {
+                    SecurityCam.transform.RotateAround(pivotPoint.position, Vector3.up, 10f * Time.deltaTime);
+                }
             }
         }
         else

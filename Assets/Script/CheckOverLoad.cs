@@ -14,8 +14,19 @@ public class CheckOverLoad : MonoBehaviour
 
     public bool Verify()
     {
-        if (UsesLeft-1 > 0)
+        if (UsesLeft > 0)
         {
+            UsesLeft--;
+            return true;
+        }
+        return false;
+    }
+
+    public bool NeedItem()
+    {
+        if (ItemsLeft > 0)
+        {
+            ItemsLeft--;
             UsesLeft--;
             return true;
         }
@@ -24,7 +35,8 @@ public class CheckOverLoad : MonoBehaviour
 
     public bool TakeItem()
     {
-        if (ItemsLeft-1 > 0)
+
+        if (ItemsLeft > 0)
         {
             ItemsLeft--;
             return true;

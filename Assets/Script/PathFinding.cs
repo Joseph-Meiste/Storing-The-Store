@@ -17,25 +17,20 @@ public class PathFinding : MonoBehaviour
     public bool CheckOutReached;
     public bool ItemFound;
     public bool CheckedOut;
+    public bool Angry;
 
     ItemRandomizer ItemRandomizer;
-    TimeTracker Timer;
+    ValueHolder Holder;
+    RandomEvent RandomEvent;
 
     private string Direction;
 
     private void Awake()
     {
-        animator = Body.GetComponent<Animator>(); ;
+        animator = Body.GetComponent<Animator>();
         ItemRandomizer = FindObjectOfType<ItemRandomizer>();
-        Timer = FindObjectOfType<TimeTracker>();
-    }
-
-    public void FindPath()
-    {
-        string Item = ItemRandomizer.Item;
-        TargetItem = GameObject.Find(Item);
-        ItemReached = false;
-        ItemFound = false;
+        RandomEvent = FindObjectOfType<RandomEvent>();
+        Holder = FindObjectOfType<ValueHolder>();
     }
 
     public void Update()
@@ -59,6 +54,14 @@ public class PathFinding : MonoBehaviour
         }
     }
 
+    public void FindPath()
+    {
+        string Item = ItemRandomizer.Item;
+        TargetItem = GameObject.Find(Item);
+        ItemReached = false;
+        ItemFound = false;
+    }
+
     public void MoveToShelf()
     {
         if (TargetItem != null)
@@ -71,6 +74,7 @@ public class PathFinding : MonoBehaviour
             FindPath();
         }
     }
+
     public void CheckIfReachedItem()
     {
         if (!ItemReached)
@@ -79,27 +83,71 @@ public class PathFinding : MonoBehaviour
 
             if (distanceToItem < 0.5f)
             {
-                animator.SetTrigger("ReadyToSearch");
-                ItemReached = true;
+                Vector3 targetEuler = TargetItem.transform.eulerAngles;
+                Vector3 customerEuler = Customer.transform.eulerAngles;
+
+                Quaternion targetRotation = Quaternion.Euler(customerEuler.x, targetEuler.y, customerEuler.z);
+                Customer.transform.rotation = Quaternion.RotateTowards(Customer.transform.rotation, targetRotation, 180f * Time.deltaTime);
+
+                float angleDifference = Quaternion.Angle(Customer.transform.rotation, targetRotation);
+                if (angleDifference < 5f)
+                {
+                    animator.SetTrigger("ReadyToSearch");
+                    ItemReached = true;
+                }
             }
         }
     }
+
     public void TryTakeItem()
     {
         CheckOverLoad targetShelf = GameObject.Find(ItemRandomizer.Item).GetComponent<CheckOverLoad>();
-        ItemFound = targetShelf.TakeItem();
 
-        if (ItemFound) { TakeItem(); }
-        else { Steal(); };
+        ItemFound = targetShelf.TakeItem();
+        Debug.Log(ItemFound);
+
+        if (ItemFound == true)
+        {
+            GrabItem();
+        }
+        else
+        {
+            BadEvent();
+        }
     }
-    public void TakeItem()
+
+    public void GrabItem()
     {
         animator.SetTrigger("IsItemFound");
     }
-    public void Steal()
+
+    public void BadEvent()
     {
-        Debug.Log("Steal");
+        Angry = true;
+        Customer.speed = 10f;
+        Holder.AddAngryCustomer();
+        //Grab 2 items rather than 1 , throws 3 trash, break a light; 
+        int Random = UnityEngine.Random.Range(1, 4);
+        switch (Random)
+        {
+            case 1:
+                for (int loop = 0; loop <= 2; loop++)
+                {
+                    ItemRandomizer.FindItem();
+                }
+                break;
+            case 2:
+                for (int loop = 0; loop <= 3; loop++)
+                {
+                    RandomEvent.SpawnTrash();
+                }
+                break;
+            case 3:
+                RandomEvent.BreakLight();
+                break;
+        }
     }
+
     public void GoToCheckOut()
     {
         if (!CheckedOut)
@@ -117,6 +165,7 @@ public class PathFinding : MonoBehaviour
             }
         }
     }
+
     public void CheckIfReachedCheckOut()
     {
         float distanceToCheckOut = Vector3.Distance(Customer.transform.position, GameObject.Find(Direction).transform.position);
@@ -126,19 +175,20 @@ public class PathFinding : MonoBehaviour
             CheckedOut = true;
         }
     }
+
     public void GoToTheExit()
     {
         Customer.destination = GameObject.Find("Exit").transform.position;
     }
+
     public void CheckIfReachedExit()
     {
         float distanceToCheckOut = Vector3.Distance(Customer.transform.position, GameObject.Find("Exit").transform.position);
 
         if (distanceToCheckOut < 1f)
         {
-            Timer.IncrementInt();
-            Destroy(Body);
+            Holder.IncrementInt();
+            Destroy(Object);
         }
     }
-
 }

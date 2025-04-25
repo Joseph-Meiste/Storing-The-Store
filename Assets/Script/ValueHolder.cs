@@ -1,11 +1,12 @@
 using UnityEngine;
 
-public class TimeTracker : MonoBehaviour
+public class ValueHolder : MonoBehaviour
 {
     public bool isDay = true;
     public int CompletedCustomers;
     public int OncomingCustomers;
     public int NumberOfTrash;
+    public int NumberOfAngryCustomers;
 
     public void IncrementInt()
     {
@@ -20,6 +21,11 @@ public class TimeTracker : MonoBehaviour
     public void AddTrashCounter()
     {
         NumberOfTrash++;
+    }
+
+    public void AddAngryCustomer()
+    {
+        NumberOfAngryCustomers++;
     }
 
     public void BreakLight()

@@ -11,13 +11,13 @@ public class RandomEvent : MonoBehaviour
 
     PathFinding pathFinding;
     Transform TrashFolder;
-    TimeTracker Timer;
+    ValueHolder Holder;
 
     private int TrashCount;
 
     void Awake()
     {
-        Timer = FindObjectOfType<TimeTracker>();
+        Holder = FindObjectOfType<ValueHolder>();
         pathFinding = FindObjectOfType<PathFinding>();
         TrashFolder = FindObjectOfType<FindTrash>()?.transform ?? Instantiate(TrashFolderPrefab).transform;
         UpdateText();
@@ -44,7 +44,7 @@ public class RandomEvent : MonoBehaviour
     {
         if (Random.Range(1, 15) == 14)
         {
-            Timer.AddTrashCounter();
+            Holder.AddTrashCounter();
             SpawnTrash();
             UpdateText();
         }
@@ -58,5 +58,10 @@ public class RandomEvent : MonoBehaviour
             pathFinding.Customer.transform.rotation,
             TrashFolder
         );
+    }
+
+    public void BreakLight()
+    {
+        Debug.Log("Broken-Light");
     }
 }

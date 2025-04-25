@@ -11,6 +11,8 @@ public class ItemRandomizer : MonoBehaviour
     private int ShelfNum;
     private int ItemNum;
 
+    private bool Angry;
+
     private PathFinding PathFinder;
     private CheckOverLoad CheckOverLoad;
 
@@ -26,18 +28,35 @@ public class ItemRandomizer : MonoBehaviour
         FindItem();
     }
 
-    private void FindItem()
+    private void Update()
+    {
+        Angry = PathFinder.Angry;
+    }
+
+    public void FindItem()
     {
         GenerateItem();
         CheckOverLoad targetShelf = GameObject.Find(Item).GetComponent<CheckOverLoad>();
-        bool worked = targetShelf.Verify();
 
-        if (!worked)
+        if (!Angry)
         {
-            FindItem();
-        }
+            bool worked = targetShelf.Verify();
 
-        PathFinder.FindPath();
+            if (!worked)
+            {
+                FindItem();
+            }
+            PathFinder.FindPath();
+        }
+        if (Angry)
+        {
+            bool worked = targetShelf.NeedItem();
+            if (!worked)
+            {
+                FindItem();
+            }
+            PathFinder.FindPath();
+        }
     }
 
     private void GenerateItem()

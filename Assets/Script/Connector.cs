@@ -11,7 +11,7 @@ public class Connector : MonoBehaviour
         pathfinding = Body.GetComponent<PathFinding>();
     }
 
-    private void TryTakeItem()
+    private void TryTakeItemConnector()
     {
         pathfinding.TryTakeItem(); 
     }
