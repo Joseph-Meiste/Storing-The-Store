@@ -8,7 +8,7 @@ public class SunRotation : MonoBehaviour
     public Material skyMaterial;
     public List<Material> skyColors;
     public float rotationSpeed = 10f;
-    public float transitionSpeed = 0.5f; // seconds per color fade
+    public float transitionSpeed = 0.5f;
 
     private int currentIndex = 0;
     private int nextIndex = 1;
@@ -16,28 +16,34 @@ public class SunRotation : MonoBehaviour
 
     void Update()
     {
-        // Rotate the sun
-        if (pivotPoint && Sun)
-            Sun.transform.RotateAround(pivotPoint.position, Vector3.up, rotationSpeed * Time.deltaTime);
+        RotateSun();
+        UpdateSkyAndSunColor();
+    }
 
-        // Smooth color transition
-        if (skyColors.Count >= 2 && skyMaterial)
+    private void RotateSun()
+    {
+        if (pivotPoint != null && Sun != null)
         {
-            Color from = skyColors[currentIndex].color;
-            Color to = skyColors[nextIndex].color;
+            Sun.transform.RotateAround(pivotPoint.position, Vector3.up, rotationSpeed * Time.deltaTime);
+        }
+    }
 
-            t += Time.deltaTime / transitionSpeed;
-            Color lerpedColor = Color.Lerp(from, to, t);
+    private void UpdateSkyAndSunColor()
+    {
+        Color from = skyColors[currentIndex].GetColor("_Color");
+        Color to = skyColors[nextIndex].GetColor("_Color");
 
-            skyMaterial.color = lerpedColor;
-            Sun.color = lerpedColor;
+        t += Time.deltaTime / transitionSpeed;
+        Color lerpedColor = Color.Lerp(from, to, t);
 
-            if (t >= 1f)
-            {
-                t = 0f;
-                currentIndex = nextIndex;
-                nextIndex = (nextIndex + 1) % skyColors.Count;
-            }
+        skyMaterial.SetColor("_Color", lerpedColor);
+        Sun.color = lerpedColor;
+
+        if (t >= 1f)
+        {
+            t = 0f;
+            currentIndex = nextIndex;
+            nextIndex = (nextIndex + 1) % skyColors.Count;
         }
     }
 }

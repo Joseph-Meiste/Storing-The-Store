@@ -1,6 +1,3 @@
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class CheckOverLoad : MonoBehaviour
@@ -32,7 +29,6 @@ public class CheckOverLoad : MonoBehaviour
 
     public bool TakeItem()
     {
-
         if (ItemsLeft > 0)
         {
             ItemsLeft--;

@@ -1,15 +1,12 @@
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using static UnityEditor.FilePathAttribute;
 
 public class CameraSwitching : MonoBehaviour
 {
-    [SerializeField] private Vector3 _rotation;
-
     public List<GameObject> Walls;
     public Camera SecurityCam;
-    public Camera Player;
+    public GameObject Security;
+    public GameObject Player;
     public Transform pivotPoint;
     public bool RotationRight;
 
@@ -32,19 +29,18 @@ public class CameraSwitching : MonoBehaviour
     {
         WallDisplay();
 
-        if (Holder.isDay)
+        if (Holder != null && Holder.isDay)
         {
-            if (!Player.gameObject.activeSelf)
+            if (Security != null && Player != null)
             {
-                SecurityCam.gameObject.SetActive(true);
-                Player.gameObject.SetActive(false);
+                Security.SetActive(true);
+                Player.SetActive(false);
             }
 
             if (Input.GetKey(KeyCode.D))
             {
                 SwitchAngle(-1);
                 RotationRight = true;
-                
             }
             else if (Input.GetKey(KeyCode.A))
             {
@@ -53,22 +49,23 @@ public class CameraSwitching : MonoBehaviour
             }
             else
             {
+                float fallbackSpeed = rotationSpeed * 0.2f;
                 if (RotationRight)
                 {
-                    SecurityCam.transform.RotateAround(pivotPoint.position, Vector3.up, -10f * Time.deltaTime);
+                    SecurityCam.transform.RotateAround(pivotPoint.position, Vector3.up, -fallbackSpeed * Time.deltaTime);
                 }
                 else
                 {
-                    SecurityCam.transform.RotateAround(pivotPoint.position, Vector3.up, 10f * Time.deltaTime);
+                    SecurityCam.transform.RotateAround(pivotPoint.position, Vector3.up, fallbackSpeed * Time.deltaTime);
                 }
             }
         }
         else
         {
-            if (!Player.gameObject.activeSelf)
+            if (Security != null && Player != null)
             {
-                Player.gameObject.SetActive(true);
-                SecurityCam.gameObject.SetActive(false);
+                Security.SetActive(false);
+                Player.SetActive(true);
             }
         }
     }
@@ -85,7 +82,7 @@ public class CameraSwitching : MonoBehaviour
         {
             wallIndex = 2;
         }
-        else if ((CamAngle.y >= 0f && CamAngle.y < 90f) || (CamAngle.y >= 360f && CamAngle.y <= 400f))
+        else if (CamAngle.y >= 0f && CamAngle.y < 90f)
         {
             wallIndex = 3;
         }
@@ -101,7 +98,7 @@ public class CameraSwitching : MonoBehaviour
 
         if (wallIndex > 0 && wallIndex <= Walls.Count)
         {
-            Walls[wallIndex-1].SetActive(true);
+            Walls[wallIndex - 1].SetActive(true);
         }
     }
 }

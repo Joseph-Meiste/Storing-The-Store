@@ -3,8 +3,6 @@ using UnityEngine;
 public class DayCounter : MonoBehaviour
 {
     private ValueHolder valueHolder;
-    public GameObject Security;
-    public GameObject Player;
 
     void Awake()
     {
@@ -16,28 +14,19 @@ public class DayCounter : MonoBehaviour
     {
     if (valueHolder.isDay)
     {
-        if (!Security.gameObject.activeSelf)
-        {
-            Player.SetActive(false);
-            Security.gameObject.SetActive(true);
-        }
         CheckIfDayIsComplete();
     }
     else
     {
-        if (!Player.activeSelf)
-        {
-            Security.gameObject.SetActive(false);
-            Player.SetActive(true);
-        }
+
     }
     }
 
     public void DayOne()
     {
-        valueHolder.OncomingCustomers = 15;
+        valueHolder.OncomingCustomers = 0;
         valueHolder.isDay = true;
-        valueHolder.requirement = 15;
+        valueHolder.requirement =0 ;
     }
 
     public void CheckIfDayIsComplete()
