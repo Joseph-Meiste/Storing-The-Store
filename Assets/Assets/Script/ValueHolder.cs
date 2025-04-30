@@ -1,23 +1,39 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ValueHolder : MonoBehaviour
 {
     public bool isDay = true;
-    public int DayNumber;
+    public int DayNumber = 1;
     public int OncomingCustomers;
     public int CompletedCustomers;
+    public int Customers;
     public int requirement;
     public int NumberOfTrash;
     public int NumberOfAngryCustomers;
 
+    public Canvas canvas;
+    UI ui;
+
+    private void Start()
+    {
+        Customers = 0;
+        DayNumber = 1;
+        ui = canvas.GetComponent<UI>();
+    }
+
     public void IncrementInt()
     {
         CompletedCustomers++;
+        Customers--;
+        ui.CustomerTextUpdate();
     }
 
     public void DecrementInt()
     {
         OncomingCustomers--;
+        Customers++;
+        ui.CustomerTextUpdate();
     }
 
     public void AddTrashCounter()
@@ -38,5 +54,6 @@ public class ValueHolder : MonoBehaviour
     public void CompletedDay()
     {
         DayNumber++;
+        ui.DayNumberTextUpdate();
     }
 }

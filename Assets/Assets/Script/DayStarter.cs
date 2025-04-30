@@ -15,10 +15,14 @@ public class DayCounter : MonoBehaviour
     private string[] BinsArray;
 
     private ValueHolder valueHolder;
+    public Canvas canvas;
+
+    UI ui;
 
     void Awake()
     {
         valueHolder = GameObject.Find("Map").GetComponent<ValueHolder>();
+        ui = canvas.GetComponent<UI>();
     }
 
     private void Start()
@@ -49,19 +53,24 @@ public class DayCounter : MonoBehaviour
     public void DayOne()
     {
         Reset();
-        valueHolder.OncomingCustomers = 5;
+        ui.CameraUI();
         valueHolder.isDay = true;
+        valueHolder.OncomingCustomers = 5;
         valueHolder.requirement = 5;
     }
 
     public void CheckIfDayIsComplete()
     {
+
         if (valueHolder.CompletedCustomers == valueHolder.requirement)
         {
+            valueHolder.CompletedCustomers = 0;
             valueHolder.CompletedDay();
+            ui.PlayerUI();
             valueHolder.isDay = false;
         }
     }
+
 
     public void Reset()
     {
