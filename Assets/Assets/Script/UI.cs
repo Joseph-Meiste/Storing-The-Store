@@ -70,8 +70,11 @@ public class UI : MonoBehaviour
 
     private void Update()
     {
-        float value = CountDown();
+        if (!holder.isDay)
+        {
+            float value = CountDown();
         value = Mathf.Max(0, Mathf.Round(Timer * 10f) / 10f);
         Time.text = value.ToString() + "s";
+        }
     }
 }

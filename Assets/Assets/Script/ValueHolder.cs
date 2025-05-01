@@ -11,6 +11,7 @@ public class ValueHolder : MonoBehaviour
     public int requirement;
     public int NumberOfTrash;
     public int NumberOfAngryCustomers;
+    public float precent;
 
     public Canvas canvas;
     UI ui;
@@ -56,4 +57,11 @@ public class ValueHolder : MonoBehaviour
         DayNumber++;
         ui.DayNumberTextUpdate();
     }
+
+    public float Precent()
+    {
+        precent = (float)CompletedCustomers / requirement;
+        return precent;
+    }
+
 }

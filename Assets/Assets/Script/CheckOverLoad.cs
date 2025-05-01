@@ -6,6 +6,15 @@ public class CheckOverLoad : MonoBehaviour
     public int ItemsLeft;
     public int Reset;
 
+    public GameObject shelf;
+
+    ShelfInteraction update;
+    
+    private void Awake()
+    {
+        update = shelf.GetComponent<ShelfInteraction>();
+    }
+
     public bool Verify()
     {
         if (UsesLeft > 0)
@@ -32,6 +41,8 @@ public class CheckOverLoad : MonoBehaviour
         if (ItemsLeft > 0)
         {
             ItemsLeft--;
+            update.UpdateItemLeft();
+            
             return true;
         }
         return false;

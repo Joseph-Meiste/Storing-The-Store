@@ -1,13 +1,22 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 public class PlayerInteraction : MonoBehaviour
 {
     public float lookRange = 5f;
+    public string ItemCount;
     public Camera playerCamera;
-    public Text displayText;
+    public Text ItemNameText;
+    public Text ItemCountText;
+    public GameObject pannel;
 
     private ShelfInteraction currentItem;
+
+    private void Start()
+    {
+        pannel.SetActive(false);
+    }
 
     private void Update()
     {
@@ -25,7 +34,9 @@ public class PlayerInteraction : MonoBehaviour
 
             if (item != null)
             {
-                displayText.text = item.itemName;
+                pannel.SetActive(true);
+                ItemNameText.text = item.Message;
+                ItemCountText.text = "(" + item.itemsLeft + "/" + item.maxitem + ")";
 
                 if (currentItem != item)
                 {
@@ -43,7 +54,9 @@ public class PlayerInteraction : MonoBehaviour
         {
             if (currentItem != null)
             {
-                displayText.text = "";
+                pannel.SetActive(false);
+                ItemNameText.text = "";
+                ItemCountText.text = "";
                 currentItem.interaction = false;
                 currentItem = null; 
             }

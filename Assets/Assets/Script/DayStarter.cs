@@ -55,8 +55,8 @@ public class DayCounter : MonoBehaviour
         Reset();
         ui.CameraUI();
         valueHolder.isDay = true;
-        valueHolder.OncomingCustomers = 5;
-        valueHolder.requirement = 5;
+        valueHolder.OncomingCustomers = 20;
+        valueHolder.requirement = 20;
     }
 
     public void CheckIfDayIsComplete()

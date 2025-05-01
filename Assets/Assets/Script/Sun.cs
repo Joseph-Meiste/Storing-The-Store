@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.WSA;
 
 public class SunRotation : MonoBehaviour
 {
@@ -7,6 +8,7 @@ public class SunRotation : MonoBehaviour
     public Light Sun;
     public Material skyMaterial;
     public List<Material> skyColors;
+
     public float rotationSpeed = 10f;
     public float transitionSpeed = 0.5f;
 
@@ -14,10 +16,25 @@ public class SunRotation : MonoBehaviour
     private int nextIndex = 1;
     private float t = 0f;
 
+    public float requiredProgress = 0f;
+
+    ValueHolder holder; 
+
+    private void Awake()
+    {
+        holder = GameObject.Find("Map").GetComponent<ValueHolder>();
+    }
+
     void Update()
     {
+        requiredProgress = holder.Precent();
+
         RotateSun();
-        UpdateSkyAndSunColor();
+
+        if (CanTransition())
+        {
+            UpdateSkyAndSunColor();
+        }
     }
 
     private void RotateSun()
@@ -28,8 +45,21 @@ public class SunRotation : MonoBehaviour
         }
     }
 
+    private bool CanTransition()
+    {
+        if (nextIndex <= 2)
+            return true;
+
+        return Mathf.Approximately(requiredProgress, 0.2f) ||
+               Mathf.Approximately(requiredProgress, 0.4f) ||
+               Mathf.Approximately(requiredProgress, 0.6f) ||
+               Mathf.Approximately(requiredProgress, 1f);
+    }
+
     private void UpdateSkyAndSunColor()
     {
+        if (skyColors.Count < 2) return;
+
         Color from = skyColors[currentIndex].GetColor("_Color");
         Color to = skyColors[nextIndex].GetColor("_Color");
 
@@ -43,7 +73,9 @@ public class SunRotation : MonoBehaviour
         {
             t = 0f;
             currentIndex = nextIndex;
-            nextIndex = (nextIndex + 1) % skyColors.Count;
+
+            if (nextIndex < skyColors.Count - 1)
+                nextIndex++;
         }
     }
 }
