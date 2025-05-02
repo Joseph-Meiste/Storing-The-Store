@@ -1,10 +1,10 @@
 using UnityEngine;
 
-public class ShelfInteraction : MonoBehaviour
+public class ShelfInteraction : MonoBehaviour, IInteractable
 {
     public string itemName;
     public string Message;
-    public bool interaction;
+    public bool interaction { get; set; }
     public int itemsLeft;
     public int maxitem;
 
@@ -17,14 +17,12 @@ public class ShelfInteraction : MonoBehaviour
         maxitem = checkOverLoad.Reset;
     }
 
-    private void Update()
+    public void Interact()
     {
-        if (interaction && Input.GetKeyDown(KeyCode.E))
-        {
-            checkOverLoad.Restock();
-            UpdateItemLeft();
-        }
+        checkOverLoad.Restock();
+        UpdateItemLeft();
     }
+
     public void UpdateItemLeft()
     {
         itemsLeft = checkOverLoad.ItemsLeft;

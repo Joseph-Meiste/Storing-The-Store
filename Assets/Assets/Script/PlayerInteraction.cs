@@ -1,17 +1,15 @@
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.UIElements;
 
 public class PlayerInteraction : MonoBehaviour
 {
     public float lookRange = 5f;
-    public string ItemCount;
     public Camera playerCamera;
     public Text ItemNameText;
     public Text ItemCountText;
     public GameObject pannel;
 
-    private ShelfInteraction currentItem;
+    private IInteractable currentItem;
 
     private void Start()
     {
@@ -21,6 +19,11 @@ public class PlayerInteraction : MonoBehaviour
     private void Update()
     {
         LookAtObjects();
+
+        if (currentItem != null && Input.GetKeyDown(KeyCode.E))
+        {
+            currentItem.Interact();
+        }
     }
 
     private void LookAtObjects()
@@ -30,23 +33,25 @@ public class PlayerInteraction : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit, lookRange))
         {
-            ShelfInteraction item = hit.collider.GetComponent<ShelfInteraction>();
+            IInteractable interactable = hit.collider.GetComponent<IInteractable>();
 
-            if (item != null)
+            if (interactable != null)
             {
-                pannel.SetActive(true);
-                ItemNameText.text = item.Message;
-                ItemCountText.text = "(" + item.itemsLeft + "/" + item.maxitem + ")";
-
-                if (currentItem != item)
+                if (currentItem != interactable)
                 {
                     if (currentItem != null)
-                    {
                         currentItem.interaction = false;
-                    }
 
-                    currentItem = item;
+                    currentItem = interactable;
                     currentItem.interaction = true;
+                }
+
+                // Optional UI update for shelves
+                if (interactable is ShelfInteraction shelf)
+                {
+                    pannel.SetActive(true);
+                    ItemNameText.text = shelf.Message;
+                    ItemCountText.text = "(" + shelf.itemsLeft + "/" + shelf.maxitem + ")";
                 }
             }
         }
@@ -54,11 +59,12 @@ public class PlayerInteraction : MonoBehaviour
         {
             if (currentItem != null)
             {
+                currentItem.interaction = false;
+                currentItem = null;
+
                 pannel.SetActive(false);
                 ItemNameText.text = "";
                 ItemCountText.text = "";
-                currentItem.interaction = false;
-                currentItem = null; 
             }
         }
     }

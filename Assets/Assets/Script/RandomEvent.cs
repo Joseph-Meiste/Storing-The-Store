@@ -42,13 +42,12 @@ public class RandomEvent : MonoBehaviour
 
     private void Trash()
     {
-        /*if (Random.Range(1, 15) == 14)
+        if (Random.Range(1, 15) == 14)
         {
             Holder.AddTrashCounter();
             SpawnTrash();
             UpdateText();
-        }*/
-        Debug.Log("trash");
+        }
     }
 
     public void SpawnTrash()

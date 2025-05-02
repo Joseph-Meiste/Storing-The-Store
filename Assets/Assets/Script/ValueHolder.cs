@@ -42,6 +42,11 @@ public class ValueHolder : MonoBehaviour
         NumberOfTrash++;
     }
 
+    public void MinusTrashCounter()
+    {
+        NumberOfTrash--;
+    }
+
     public void AddAngryCustomer()
     {
         NumberOfAngryCustomers++;
