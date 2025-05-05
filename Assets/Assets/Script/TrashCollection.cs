@@ -7,19 +7,20 @@ public class TrashCollection : MonoBehaviour, IInteractable
 
     private ValueHolder holder;
     private FirstPersonController playerMovement;  
-    public float slowdownFactor = 0.5f; 
+    public float slowdownFactor = 0.5f;
+    private GameObject player;
 
-    private float originalSpeed;  
     private void Awake()
     {
+        player = GameObject.Find("Camera/Player");
+        playerMovement = player.GetComponent<FirstPersonController>(); 
         holder = GameObject.Find("Map").GetComponent<ValueHolder>();
-        playerMovement = GameObject.FindWithTag("Player").GetComponent<FirstPersonController>(); 
-        originalSpeed = playerMovement.sprintSpeed; 
     }
 
     public void Interact()
     {
         holder.MinusTrashCounter();
+        playerMovement.walkSpeed = 5;
         Destroy(this.gameObject);
     }
 
@@ -27,7 +28,7 @@ public class TrashCollection : MonoBehaviour, IInteractable
     {
         if (other.CompareTag("Player"))
         {
-            playerMovement.sprintSpeed *= slowdownFactor;
+            playerMovement.walkSpeed = 1;
         }
     }
 
@@ -35,7 +36,7 @@ public class TrashCollection : MonoBehaviour, IInteractable
     {
         if (other.CompareTag("Player"))
         {
-            playerMovement.sprintSpeed = originalSpeed;
+            playerMovement.walkSpeed = 5;
         }
     }
 }

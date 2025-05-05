@@ -19,7 +19,7 @@ public class DayCounter : MonoBehaviour
 
     UI ui;
 
-    void Awake()
+    private void Awake()
     {
         valueHolder = GameObject.Find("Map").GetComponent<ValueHolder>();
         ui = canvas.GetComponent<UI>();
@@ -38,7 +38,7 @@ public class DayCounter : MonoBehaviour
 
         Bins = "Soccer-Balls, Basket-Balls";
         BinsArray = Bins.Split(',').Select(s => s.Trim()).ToArray();
-
+        
         DayOne();
     }
 

@@ -8,6 +8,7 @@ public class CameraSwitching : MonoBehaviour
     public GameObject Security;
     public GameObject Player;
     public Transform pivotPoint;
+    public GameObject roof;
     public bool RotationRight;
 
     ValueHolder Holder;
@@ -72,33 +73,48 @@ public class CameraSwitching : MonoBehaviour
 
     private void WallDisplay()
     {
-        Vector3 CamAngle = SecurityCam.transform.eulerAngles;
+        if (Holder.isDay)
+        {
+            roof.SetActive(false);
+            Vector3 CamAngle = SecurityCam.transform.eulerAngles;
 
-        if (CamAngle.y >= 180f && CamAngle.y < 270f)
-        {
-            wallIndex = 1;
-        }
-        else if (CamAngle.y >= 90f && CamAngle.y < 180f)
-        {
-            wallIndex = 2;
-        }
-        else if (CamAngle.y >= 0f && CamAngle.y < 90f)
-        {
-            wallIndex = 3;
-        }
-        else if (CamAngle.y >= 270f && CamAngle.y < 360f)
-        {
-            wallIndex = 4;
-        }
+            if (CamAngle.y >= 180f && CamAngle.y < 270f)
+            {
+                wallIndex = 1;
+            }
+            else if (CamAngle.y >= 90f && CamAngle.y < 180f)
+            {
+                wallIndex = 2;
+            }
+            else if (CamAngle.y >= 0f && CamAngle.y < 90f)
+            {
+                wallIndex = 3;
+            }
+            else if (CamAngle.y >= 270f && CamAngle.y < 360f)
+            {
+                wallIndex = 4;
+            }
 
-        for (int i = 0; i < Walls.Count; i++)
-        {
-            Walls[i].SetActive(false);
-        }
+            for (int i = 0; i < Walls.Count; i++)
+            {
+                Walls[i].SetActive(false);
+            }
 
-        if (wallIndex > 0 && wallIndex <= Walls.Count)
+            if (wallIndex > 0 && wallIndex <= Walls.Count)
+            {
+                Walls[wallIndex - 1].SetActive(true);
+            }
+        }
+        else if(!Holder.isDay)
         {
-            Walls[wallIndex - 1].SetActive(true);
+            Walls[0].SetActive(false);
+            Walls[1].SetActive(false);
+            Walls[2].SetActive(false);
+            Walls[3].SetActive(false);
+
+            roof.SetActive(true);
+            Walls[0].SetActive(true);
+            Walls[2].SetActive(true);
         }
     }
 }

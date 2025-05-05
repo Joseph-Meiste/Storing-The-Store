@@ -18,6 +18,8 @@ public class FirstPersonController : MonoBehaviour
 {
     private Rigidbody rb;
 
+    ValueHolder valueHolder;
+
     #region Camera Movement Variables
 
     public Camera playerCamera;
@@ -70,7 +72,7 @@ public class FirstPersonController : MonoBehaviour
     public float sprintSpeed = 7f;
     public float sprintDuration = 5f;
     public float sprintCooldown = .5f;
-    public float sprintFOV = 70f;
+    public float sprintFOV = 80f;
     public float sprintFOVStepTime = 10f;
 
     // Sprint Bar
@@ -134,6 +136,8 @@ public class FirstPersonController : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
+
+        valueHolder = GameObject.Find("Map").GetComponent<ValueHolder>();
 
         crosshairObject = GetComponentInChildren<Image>();
 
@@ -202,7 +206,17 @@ public class FirstPersonController : MonoBehaviour
 
     private void Update()
     {
+        if(valueHolder.isDay)
+        {
+            playerCanMove = false;
+        }
+        else
+        {
+            playerCanMove= true;
+        }
         #region Camera
+        if (!valueHolder.isDay)
+        {
 
         // Control camera movement
         if(cameraCanMove)
@@ -323,6 +337,16 @@ public class FirstPersonController : MonoBehaviour
 
         #endregion
 
+        #region Jump
+
+        // Gets input and calls jump method
+        if(enableJump && Input.GetKeyDown(jumpKey) && isGrounded)
+        {
+            Jump();
+        }
+
+        #endregion
+
         #region Crouch
 
         if (enableCrouch)
@@ -351,6 +375,7 @@ public class FirstPersonController : MonoBehaviour
         if(enableHeadBob)
         {
             HeadBob();
+        }
         }
     }
 
@@ -446,6 +471,22 @@ public class FirstPersonController : MonoBehaviour
         else
         {
             isGrounded = false;
+        }
+    }
+
+    private void Jump()
+    {
+        // Adds force to the player rigidbody to jump
+        if (isGrounded)
+        {
+            rb.AddForce(0f, jumpPower, 0f, ForceMode.Impulse);
+            isGrounded = false;
+        }
+
+        // When crouched and using toggle system, will uncrouch for a jump
+        if(isCrouched && !holdToCrouch)
+        {
+            Crouch();
         }
     }
 
