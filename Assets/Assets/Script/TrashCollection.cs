@@ -10,8 +10,11 @@ public class TrashCollection : MonoBehaviour, IInteractable
     private FirstPersonController playerMovement;
     private GameObject player;
 
+    private bool interacted;
+
     private void Awake()
     {
+        interacted = false;
         player = GameObject.Find("Camera/Player");
         playerMovement = player.GetComponent<FirstPersonController>();
         holder = GameObject.Find("Map").GetComponent<ValueHolder>();
@@ -19,7 +22,11 @@ public class TrashCollection : MonoBehaviour, IInteractable
 
     public void Interact()
     {
+        if (!interacted)
+        {
         StartCoroutine(DelayedTrashInteraction());
+            interacted = true;
+        }
     }
 
     private IEnumerator DelayedTrashInteraction()
