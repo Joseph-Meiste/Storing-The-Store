@@ -36,6 +36,8 @@ public class TrashCollection : MonoBehaviour, IInteractable
         playerMovement.sprintSpeed = 7f;
 
         yield return new WaitForSeconds(.1f);
+        playerMovement.walkSpeed = 5;
+        playerMovement.sprintSpeed = 7f;
 
         Destroy(this.gameObject);
     }
