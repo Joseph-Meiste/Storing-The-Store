@@ -393,7 +393,7 @@ MonoBehaviour:
   TrashCoolDownTimer: 0
   TrashCoolDown: 0
   TrashBox: 
-  TrashPile: {fileID: 7208241465502851477, guid: 7c0cf616a1bbc054d996ce1212e3367d, type: 3}
+  TrashPile: {fileID: 65549757315972627, guid: f8f478229173b224a9d3d27998fad851, type: 3}
   TrashFolderPrefab: {fileID: 2946196625619279897, guid: 15b0c999cbfd8514ba8dda60045f3784, type: 3}
 --- !u!1001 &1690008613570532748
 PrefabInstance:

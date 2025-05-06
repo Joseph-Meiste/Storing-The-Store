@@ -7,13 +7,15 @@ public class PlayerInteraction : MonoBehaviour
     public Camera playerCamera;
     public Text ItemNameText;
     public Text ItemCountText;
-    public GameObject pannel;
+    public GameObject shelfPannel;
+    public GameObject trashPannel;
 
     private IInteractable currentItem;
 
     private void Start()
     {
-        pannel.SetActive(false);
+        shelfPannel.SetActive(false);
+        trashPannel.SetActive(false);
     }
 
     private void Update()
@@ -33,28 +35,43 @@ public class PlayerInteraction : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit, lookRange))
         {
-            IInteractable interactable = hit.collider.GetComponent<IInteractable>();
-
-            if (interactable != null)
+            if (hit.collider.CompareTag("interactable"))
             {
-                if (currentItem != interactable)
-                {
-                    if (currentItem != null)
-                        currentItem.interaction = false;
+                IInteractable interactable = hit.collider.GetComponent<IInteractable>();
 
-                    currentItem = interactable;
-                    currentItem.interaction = true;
-                }
-
-                // Optional UI update for shelves
-                if (interactable is ShelfInteraction shelf)
+                if (interactable != null)
                 {
-                    pannel.SetActive(true);
-                    ItemNameText.text = shelf.Message;
-                    ItemCountText.text = "(" + shelf.itemsLeft + "/" + shelf.maxitem + ")";
+                    if (currentItem != interactable)
+                    {
+                        if (currentItem != null)
+                            currentItem.interaction = false;
+
+                        currentItem = interactable;
+                        currentItem.interaction = true;
+                    }
+
+                    if (interactable is ShelfInteraction shelf)
+                    {
+                        shelfPannel.SetActive(true);
+                        trashPannel.SetActive(false);
+                        ItemNameText.text = shelf.Message;
+                        ItemCountText.text = "(" + shelf.itemsLeft + "/" + shelf.maxitem + ")";
+                    }
+
+                    if (interactable is TrashCollection trash)
+                    {
+                        shelfPannel.SetActive(false);
+                        trashPannel.SetActive(true);
+                    }
                 }
+                }
+            else
+            {
+                shelfPannel.SetActive(false);
+                trashPannel.SetActive(false);
             }
         }
+
         else
         {
             if (currentItem != null)
@@ -62,7 +79,8 @@ public class PlayerInteraction : MonoBehaviour
                 currentItem.interaction = false;
                 currentItem = null;
 
-                pannel.SetActive(false);
+                shelfPannel.SetActive(false);
+                trashPannel.SetActive(false);
                 ItemNameText.text = "";
                 ItemCountText.text = "";
             }

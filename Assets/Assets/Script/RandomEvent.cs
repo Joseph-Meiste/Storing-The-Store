@@ -54,7 +54,7 @@ public class RandomEvent : MonoBehaviour
     {
         Instantiate(
             TrashPile,
-            pathFinding.Customer.transform.position,
+            pathFinding.Customer.transform.position + new Vector3(0f, -.3f, 0f),
             pathFinding.Customer.transform.rotation,
             TrashFolder
         );
