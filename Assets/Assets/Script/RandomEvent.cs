@@ -26,12 +26,15 @@ public class RandomEvent : MonoBehaviour
 
     void Update()
     {
-        TrashCoolDownTimer += Time.deltaTime;
-
-        if (TrashCoolDownTimer >= TrashCoolDown)
+        if (pathFinding.Trash)
         {
-            Trash();
-            TrashCoolDownTimer = Random.Range(-5f, 0f);
+            TrashCoolDownTimer += Time.deltaTime;
+
+            if (TrashCoolDownTimer >= TrashCoolDown)
+            {
+                Trash();
+                TrashCoolDownTimer = Random.Range(-5f, 0f);
+            }
         }
     }
 
@@ -42,7 +45,7 @@ public class RandomEvent : MonoBehaviour
 
     private void Trash()
     {
-        if (Random.Range(1, 15) == 14)
+        if (Random.Range(1, 2) == 1)
         {
             Holder.AddTrashCounter();
             SpawnTrash();
@@ -59,10 +62,5 @@ public class RandomEvent : MonoBehaviour
             TrashFolder
         );
         TrashCount++;
-    }
-
-    public void BreakLight()
-    {
-        Debug.Log("Broken-Light");
     }
 }

@@ -363,6 +363,7 @@ MonoBehaviour:
   ItemFound: 0
   CheckedOut: 0
   Angry: 0
+  Trash: 1
 --- !u!114 &8994077793711429800
 MonoBehaviour:
   m_ObjectHideFlags: 0

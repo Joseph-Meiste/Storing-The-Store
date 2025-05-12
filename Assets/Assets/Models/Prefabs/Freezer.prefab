@@ -1011,6 +1011,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3775807442673931146}
   - component: {fileID: 1664463497847420440}
+  - component: {fileID: 1035500186701420465}
   m_Layer: 0
   m_Name: Freezer
   m_TagString: Untagged
@@ -1056,6 +1057,44 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.08, y: 0.125, z: 0.0395}
   m_Center: {x: 0, y: 0.06125, z: 0.0015}
+--- !u!114 &1035500186701420465
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4552449218159790384}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b970c3940b4f53240acb3db271271922, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemsOnShelf:
+  - {fileID: 2762712754824388040}
+  - {fileID: 8363020705232865142}
+  - {fileID: 5054541411700166966}
+  - {fileID: 4580527786132314195}
+  - {fileID: 366113354906336204}
+  - {fileID: 6853092531830860988}
+  - {fileID: 7612803852745833602}
+  - {fileID: 6094132479234690130}
+  - {fileID: 627774561167398911}
+  - {fileID: 413573989696265392}
+  - {fileID: 7136229389129168905}
+  - {fileID: 3847641790522011449}
+  - {fileID: 3907729853599130361}
+  - {fileID: 6351019528719384169}
+  - {fileID: 896393640265273786}
+  - {fileID: 3471102470185516272}
+  - {fileID: 8130110226277917841}
+  - {fileID: 4519314885524236317}
+  - {fileID: 5458649330362763087}
+  - {fileID: 8175649496879316208}
+  - {fileID: 1702640374220544989}
+  - {fileID: 7922179698834189759}
+  - {fileID: 2439958036014814055}
+  - {fileID: 6487522815077250019}
+  removeCount: 6
 --- !u!1 &4580527786132314195
 GameObject:
   m_ObjectHideFlags: 0

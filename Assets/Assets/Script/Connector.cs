@@ -13,11 +13,13 @@ public class Connector : MonoBehaviour
 
     private void TryTakeItemConnector()
     {
-        pathfinding.TryTakeItem(); 
+        pathfinding.TryTakeItem();
+        pathfinding.Trash = true;
     }
 
     private void ActivateItemIsGrabbed()
     {
         pathfinding.ReadyForCheckOut = true;
+        pathfinding.Trash = true;
     }
 }

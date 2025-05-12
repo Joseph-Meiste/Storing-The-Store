@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.AI;
-using static UnityEditor.Progress;
 
 public class PathFinding : MonoBehaviour
 {
@@ -18,6 +17,7 @@ public class PathFinding : MonoBehaviour
     public bool ItemFound;
     public bool CheckedOut;
     public bool Angry;
+    public bool Trash;
 
     ItemRandomizer ItemRandomizer;
     ValueHolder Holder;
@@ -31,6 +31,7 @@ public class PathFinding : MonoBehaviour
         ItemRandomizer = FindObjectOfType<ItemRandomizer>();
         RandomEvent = FindObjectOfType<RandomEvent>();
         Holder = FindObjectOfType<ValueHolder>();
+        Trash = true;
     }
 
     public void Update()
@@ -83,6 +84,7 @@ public class PathFinding : MonoBehaviour
 
             if (distanceToItem < 0.5f)
             {
+                Trash = false;
                 Vector3 targetEuler = TargetItem.transform.eulerAngles;
                 Vector3 customerEuler = Customer.transform.eulerAngles;
 
@@ -125,8 +127,8 @@ public class PathFinding : MonoBehaviour
         Angry = true;
         Customer.speed = 10f;
         Holder.AddAngryCustomer();
-        //Grab 2 items rather than 1 , throws 3 trash, break a light; 
-        int Random = UnityEngine.Random.Range(1, 4);
+        //Grab 2 items rather than 1 , throws 3 trash; 
+        int Random = UnityEngine.Random.Range(1, 3);
         switch (Random)
         {
             case 1:
@@ -134,17 +136,17 @@ public class PathFinding : MonoBehaviour
                 {
                     ItemRandomizer.FindItem();
                 }
+                CheckedOut = true;
                 break;
             case 2:
                 for (int loop = 0; loop <= 3; loop++)
                 {
                     RandomEvent.SpawnTrash();
                 }
-                break;
-            case 3:
-                RandomEvent.BreakLight();
+                CheckedOut = true;
                 break;
         }
+        Trash = true;
     }
 
     public void GoToCheckOut()
@@ -187,7 +189,12 @@ public class PathFinding : MonoBehaviour
         if (distanceToCheckOut < 1f)
         {
             Holder.IncrementInt();
-            Destroy(Object);
+            Destroy();
         }
+    }
+
+    private void Destroy()
+    {
+        Destroy(Object);
     }
 }

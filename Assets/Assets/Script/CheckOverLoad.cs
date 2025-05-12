@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class CheckOverLoad : MonoBehaviour
 {
@@ -9,10 +10,12 @@ public class CheckOverLoad : MonoBehaviour
     public GameObject shelf;
 
     ShelfInteraction update;
+    VisualUpdate visual;
     
     private void Awake()
     {
         update = shelf.GetComponent<ShelfInteraction>();
+        visual = shelf.GetComponent<VisualUpdate>();
     }
 
     public bool Verify()
@@ -42,14 +45,23 @@ public class CheckOverLoad : MonoBehaviour
         {
             ItemsLeft--;
             update.UpdateItemLeft();
-            
+
+            StartCoroutine(DelayedShelfUpdate()); 
+
             return true;
         }
         return false;
     }
 
+    private IEnumerator DelayedShelfUpdate()
+    {
+        yield return new WaitForSeconds(2f);
+        visual.ShelfUpdate(); 
+    }
+
     public void Restock()
     {
         ItemsLeft = Reset;
+        visual.ResetShelf();
     }
 }
