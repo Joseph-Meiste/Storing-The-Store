@@ -21,7 +21,7 @@ public class RandomEvent : MonoBehaviour
         pathFinding = FindObjectOfType<PathFinding>();
         TrashFolder = FindObjectOfType<FindTrash>()?.transform ?? Instantiate(TrashFolderPrefab).transform;
         UpdateText();
-        TrashCoolDownTimer = Random.Range(-5f, 0f);
+        TrashCoolDownTimer = Random.Range(-3f, 0f);
     }
 
     void Update()
@@ -33,7 +33,7 @@ public class RandomEvent : MonoBehaviour
             if (TrashCoolDownTimer >= TrashCoolDown)
             {
                 Trash();
-                TrashCoolDownTimer = Random.Range(-5f, 0f);
+                TrashCoolDownTimer = Random.Range(-2f, 0f);
             }
         }
     }
