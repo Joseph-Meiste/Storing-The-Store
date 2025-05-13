@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.AI;
+using System.Collections;
 
 public class PathFinding : MonoBehaviour
 {
@@ -32,6 +33,7 @@ public class PathFinding : MonoBehaviour
         RandomEvent = FindObjectOfType<RandomEvent>();
         Holder = FindObjectOfType<ValueHolder>();
         Trash = true;
+        ItemFound = false;
     }
 
     public void Update()
@@ -125,28 +127,34 @@ public class PathFinding : MonoBehaviour
     public void BadEvent()
     {
         Angry = true;
-        Customer.speed = 10f;
+        Customer.speed = 5f;
         Holder.AddAngryCustomer();
         //Grab 2 items rather than 1 , throws 3 trash; 
-        int Random = UnityEngine.Random.Range(1, 3);
-        switch (Random)
-        {
-            case 1:
-                for (int loop = 0; loop <= 2; loop++)
-                {
-                    ItemRandomizer.FindItem();
-                }
-                CheckedOut = true;
-                break;
-            case 2:
-                for (int loop = 0; loop <= 3; loop++)
-                {
-                    RandomEvent.SpawnTrash();
-                }
-                CheckedOut = true;
-                break;
-        }
+        //int Random = UnityEngine.Random.Range(0, 2);
+       // switch (Random)
+       // {
+           // case 0:
+           //     for (int loop = 0; loop <= 2; loop++)
+          //      {
+         //           ItemRandomizer.FindItem();
+         //       }
+         //       break;
+         //   case 1:
+                StartCoroutine(SpawnTrashWithDelay());
+         //       break;
+        //}
         Trash = true;
+    }
+
+    private IEnumerator SpawnTrashWithDelay()
+    {
+        yield return new WaitForSeconds(3f);
+        ReadyForCheckOut = true;
+        for (int loop = 0; loop < 3; loop++)
+        {
+            RandomEvent.SpawnTrash();
+            yield return new WaitForSeconds(1f);
+        }
     }
 
     public void GoToCheckOut()

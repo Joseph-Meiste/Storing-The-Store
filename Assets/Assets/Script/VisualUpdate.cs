@@ -9,21 +9,25 @@ public class VisualUpdate : MonoBehaviour
 
     public void ShelfUpdate()
     {
-        List<int> indices = new List<int>();
+        List<int> activeIndices = new List<int>();
         for (int i = 0; i < itemsOnShelf.Length; i++)
         {
-            indices.Add(i);
+            if (itemsOnShelf[i].activeSelf)
+            {
+                activeIndices.Add(i);
+            }
         }
 
-        for (int i = 0; i < indices.Count; i++)
+        for (int i = 0; i < activeIndices.Count; i++)
         {
-            int randomIndex = Random.Range(i, indices.Count);
-            (indices[i], indices[randomIndex]) = (indices[randomIndex], indices[i]);
+            int randomIndex = Random.Range(i, activeIndices.Count);
+            (activeIndices[i], activeIndices[randomIndex]) = (activeIndices[randomIndex], activeIndices[i]);
         }
 
-        for (int i = 0; i < removeCount; i++)
+        int countToRemove = Mathf.Min(removeCount, activeIndices.Count);
+        for (int i = 0; i < countToRemove; i++)
         {
-            int indexToDisable = indices[i];
+            int indexToDisable = activeIndices[i];
             itemsOnShelf[indexToDisable].SetActive(false);
         }
     }

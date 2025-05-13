@@ -14,7 +14,6 @@ public class Connector : MonoBehaviour
     private void TryTakeItemConnector()
     {
         pathfinding.TryTakeItem();
-        pathfinding.Trash = true;
     }
 
     private void ActivateItemIsGrabbed()

@@ -45,7 +45,7 @@ public class RandomEvent : MonoBehaviour
 
     private void Trash()
     {
-        if (Random.Range(1, 2) == 1)
+        if (Random.Range(0, 15) == 1)
         {
             Holder.AddTrashCounter();
             SpawnTrash();

@@ -4139,11 +4139,15 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: aa4d06c1fd925a14bafad149cd27d8ba, type: 2}
     - target: {fileID: 4015383838284675902, guid: 6a201be6b18b0a542a846c463618ea79, type: 3}
       propertyPath: m_Name
-      value: sda
+      value: Shelf
       objectReference: {fileID: 0}
     - target: {fileID: 4015383838284675902, guid: 6a201be6b18b0a542a846c463618ea79, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4015383838284675902, guid: 6a201be6b18b0a542a846c463618ea79, type: 3}
+      propertyPath: m_TagString
+      value: interactable
       objectReference: {fileID: 0}
     - target: {fileID: 4095115370607001188, guid: 6a201be6b18b0a542a846c463618ea79, type: 3}
       propertyPath: material1
@@ -42952,7 +42956,7 @@ MonoBehaviour:
   Customer: {fileID: 8114283729354305755, guid: 83fe6c25a998ed349b7723dfe0e57098, type: 3}
   SpawnPad: {fileID: 1025884544}
   folderParent: {fileID: 341151277}
-  SpawnRate: 0.5
+  SpawnRate: 0.35
 --- !u!4 &1027645162 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 05664774fd35e114b9f6083622bd6296, type: 3}
@@ -59398,11 +59402,15 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 74db42c5013d05245bcc13be1e4eae05, type: 2}
     - target: {fileID: 4015383838284675902, guid: 6a201be6b18b0a542a846c463618ea79, type: 3}
       propertyPath: m_Name
-      value: d
+      value: Shelf
       objectReference: {fileID: 0}
     - target: {fileID: 4015383838284675902, guid: 6a201be6b18b0a542a846c463618ea79, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4015383838284675902, guid: 6a201be6b18b0a542a846c463618ea79, type: 3}
+      propertyPath: m_TagString
+      value: interactable
       objectReference: {fileID: 0}
     - target: {fileID: 4095115370607001188, guid: 6a201be6b18b0a542a846c463618ea79, type: 3}
       propertyPath: material1
@@ -65970,11 +65978,15 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: ad356047df12ec84aa67e8340ea05264, type: 2}
     - target: {fileID: 4015383838284675902, guid: 6a201be6b18b0a542a846c463618ea79, type: 3}
       propertyPath: m_Name
-      value: sgegs
+      value: Shelf
       objectReference: {fileID: 0}
     - target: {fileID: 4015383838284675902, guid: 6a201be6b18b0a542a846c463618ea79, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4015383838284675902, guid: 6a201be6b18b0a542a846c463618ea79, type: 3}
+      propertyPath: m_TagString
+      value: interactable
       objectReference: {fileID: 0}
     - target: {fileID: 4095115370607001188, guid: 6a201be6b18b0a542a846c463618ea79, type: 3}
       propertyPath: material1
@@ -83506,11 +83518,15 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: aa4d06c1fd925a14bafad149cd27d8ba, type: 2}
     - target: {fileID: 4015383838284675902, guid: 6a201be6b18b0a542a846c463618ea79, type: 3}
       propertyPath: m_Name
-      value: ssdsd
+      value: Shelf
       objectReference: {fileID: 0}
     - target: {fileID: 4015383838284675902, guid: 6a201be6b18b0a542a846c463618ea79, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4015383838284675902, guid: 6a201be6b18b0a542a846c463618ea79, type: 3}
+      propertyPath: m_TagString
+      value: interactable
       objectReference: {fileID: 0}
     - target: {fileID: 4095115370607001188, guid: 6a201be6b18b0a542a846c463618ea79, type: 3}
       propertyPath: material1
