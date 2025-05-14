@@ -1,0 +1,89 @@
+using UnityEngine;
+using UnityEngine.UI;
+
+public class TestPlayerInteraction : MonoBehaviour
+{
+    public float lookRange = 5f;
+    public Camera playerCamera;
+    public Text ItemNameText;
+    public Text ItemCountText;
+    public GameObject shelfPannel;
+    public GameObject trashPannel;
+
+    private IInteractable currentItem;
+
+    private void Start()
+    {
+        shelfPannel.SetActive(false);
+        trashPannel.SetActive(false);
+    }
+
+    private void Update()
+    {
+        LookAtObjects();
+
+        if (currentItem != null && Input.GetKeyDown(KeyCode.E))
+        {
+            currentItem.Interact();
+        }
+    }
+
+    private void LookAtObjects()
+    {
+        Ray ray = new Ray(playerCamera.transform.position, playerCamera.transform.forward);
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit, lookRange))
+        {
+            if (hit.collider.CompareTag("interactable"))
+            {
+                IInteractable interactable = hit.collider.GetComponent<IInteractable>();
+
+                if (interactable != null)
+                {
+                    if (currentItem != interactable)
+                    {
+                        if (currentItem != null)
+                            currentItem.interaction = false;
+
+                        currentItem = interactable;
+                        currentItem.interaction = true;
+                    }
+
+                    if (interactable is DemoShelf shelf)
+                    {
+                        shelfPannel.SetActive(true);
+                        trashPannel.SetActive(false);
+                        ItemNameText.text = shelf.Message;
+                        ItemCountText.text = "(" + shelf.itemsLeft + "/" + shelf.maxitem + ")";
+                    }
+
+                    if (interactable is TestOil trash)
+                    {
+                        shelfPannel.SetActive(false);
+                        trashPannel.SetActive(true);
+                    }
+                }
+            }
+            else
+            {
+                shelfPannel.SetActive(false);
+                trashPannel.SetActive(false);
+            }
+        }
+
+        else
+        {
+            if (currentItem != null)
+            {
+                currentItem.interaction = false;
+                currentItem = null;
+
+                shelfPannel.SetActive(false);
+                trashPannel.SetActive(false);
+                ItemNameText.text = "";
+                ItemCountText.text = "";
+            }
+        }
+    }
+}

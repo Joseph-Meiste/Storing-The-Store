@@ -64,4 +64,9 @@ public class Title : MonoBehaviour
                 Walls[wallIndex - 1].SetActive(true);
         }
     }
+        void Start()
+        {
+            Cursor.lockState = CursorLockMode.None; // Unlocks the mouse
+            Cursor.visible = true; // Makes the cursor visible
+        }
 }
