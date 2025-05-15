@@ -47,7 +47,6 @@ public class RandomEvent : MonoBehaviour
     {
         if (Random.Range(0, 15) == 1)
         {
-            Holder.AddTrashCounter();
             SpawnTrash();
             UpdateText();
         }
@@ -62,5 +61,6 @@ public class RandomEvent : MonoBehaviour
             TrashFolder
         );
         TrashCount++;
+        Holder.AddTrashCounter();
     }
 }

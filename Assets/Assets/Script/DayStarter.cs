@@ -1,5 +1,4 @@
 using System.Linq;
-using UnityEditor.PackageManager.Requests;
 using UnityEngine;
 
 public class DayCounter : MonoBehaviour
@@ -65,6 +64,7 @@ public class DayCounter : MonoBehaviour
         if (valueHolder.CompletedCustomers == valueHolder.requirement)
         {
             valueHolder.CompletedCustomers = 0;
+            valueHolder.NumberOfAngryCustomers = 0;
             valueHolder.CompletedDay();
             ui.PlayerUI();
             valueHolder.isDay = false;
